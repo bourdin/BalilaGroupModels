@@ -1,0 +1,76 @@
+### global options
+verbose: 1
+time:
+    min: 0
+    max: 10
+    numstep: 51
+    interpolation: linear
+heatxfer:
+    timestepping: 
+        type: null
+defmech:
+  timeStepping: 
+    type: quasistatic
+  solver:
+    type: altmin
+  damage:
+    atol: 1.0e-3
+  sor:
+    omega: 1.4
+  pclag: 5
+displacement:
+  snes:
+    lag_jacobian: 5
+    type: ksponly
+  pc:
+    type: gamg
+# center region with the crack and the inclusions/
+cs0001:
+    hookesLaw:  
+        type: isotropic
+        YoungsModulus: 1.
+        PoissonRatio:  0.35
+        PlaneStress: 0
+    FractureToughness: 1.
+    internallength: 2.e-4
+    residualstiffness: 0.
+    damage:
+        type: AT1
+    plasticity:
+        type: NONE
+    displacementbc: no,no,no
+    damageBC: no
+# rest of the mesh
+cs0002:
+    hookesLaw:  
+        type: isotropic
+        YoungsModulus: 1.
+        PoissonRatio:  0.35
+        PlaneStress: 0
+    FractureToughness: 1.
+    internallength: 2.0e-4
+    residualstiffness: 0.
+    damage:
+        type: AT1Elastic
+    plasticity:
+        type: NONE
+    displacementbc: no,no,no
+    damageBC: no
+# The region on which a surface force is applied (remember to renormalize the force so that the total magnitude is correct)
+fs0020:
+    displacementbc: no,yes,no
+    boundaryDisplacement: 0,-1,0
+    damageBC: yes
+    boundaryDamage: 0.
+# The supports
+vs0100:
+    displacementBC: yes,yes,no
+    boundaryDisplacement: 0,0,0
+    damageBC: yes
+    boundaryDamage: 0.
+vs0101:
+    displacementBC: yes,yes,no
+    boundaryDisplacement: 0,0,0
+    damageBC: yes
+    boundaryDamage: 0.
+
